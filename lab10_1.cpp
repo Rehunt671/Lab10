@@ -1,15 +1,17 @@
 #include<iostream>
-#include<iomanip> //For using setw(), setprecision(), ...
+#include<iomanip>
 using namespace std;
-
-int main(){	
-	cout << "Enter initial loan: ";
-	cout << "Enter interest rate per year (%): ";
-	cout << "Enter amount you can pay per year: ";
-
-	//use 'setw' to set width of table and 'left' to set left-alignment
-	//you can change input argument of 'setw()' to see the effect
-	//Try to change from 'left' to 'right' and see the effect
+double pbalance,i,p;//input
+double in,total,balance;
+int yrcnt = 1;
+int main(){
+// 1.
+  cout << "Enter initial loan: ";
+  cin >> pbalance;
+  cout << "Enter interest rate per year (%): ";
+  cin >> i;
+  cout << "Enter amount you can pay per year: ";
+  cin >> p;
 	cout << setw(13) << left << "EndOfYear#"; 
 	cout << setw(13) << left << "PrevBalance"; 
 	cout << setw(13) << left << "Interest"; 
@@ -17,17 +19,22 @@ int main(){
 	cout << setw(13) << left << "Payment";
 	cout << setw(13) << left << "NewBalance";
 	cout << "\n";
-	
-	//use 'fixed' and 'setprecision' to fix the number of decimal digits for displaying
-	//you can change input argument of 'setprecision()' to see the effect
-	cout << fixed << setprecision(2); 
-	cout << setw(13) << left << 1; 
-	cout << setw(13) << left << 1000.0;
-	cout << setw(13) << left << 50.0;
-	cout << setw(13) << left << 1050.0;
-	cout << setw(13) << left << 100.0;
-	cout << setw(13) << left << 950.0;
-	cout << "\n";	
-	
-	return 0;
+  balance = pbalance;
+  while(balance != 0 ){
+    in = pbalance*i/100;//คำนวณดอกเบี้ยในปีนั้นๆ
+    total = pbalance+in;//รวมทั้งหมดในปีนั้นๆเป็นเงินเท่าไร
+    if(total <= p) p = total;//ถ้าเงินทั้งหมดที่ต้องจ่ายน้อยกว่าที่เราจ่ายได้ เราก็จ่ายเท่า total พอ
+    balance = total-p;//เงินที่เราต้องจ่ายอีกในปีถัดไปคิดเป็น เงินทั้งหมดที่เราต้องจ่ายอีก - เงินที่เราจ่ายได้ในปีนั้น
+    cout << fixed << setprecision(2); 
+	  cout << setw(13) << left << yrcnt; 
+	  cout << setw(13) << left << pbalance;
+	  cout << setw(13) << left << in;
+	  cout << setw(13) << left << total;
+	  cout << setw(13) << left << p;
+	  cout << setw(13) << left << balance;
+	  cout << "\n";	
+    pbalance = balance;//ก่อนจบรอบนั้นๆ เงินที่เราต้องจ่ายอีก จะเป็นก่อนจ่ายในรอบถัดไป
+    yrcnt++;//
+  }
+  return 0;
 }
